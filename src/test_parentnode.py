@@ -21,6 +21,14 @@ class TestParentNode(unittest.TestCase):
         except (ValueError):
             pass
 
+    def test_throws_value_error_when_empty_children(self):
+        node = ParentNode("div", [])
+        try:
+            node.to_html()
+            self.fail("Expected ValueError")
+        except (ValueError):
+            pass
+
     def test_returns_parent_and_children(self):
         parent = ParentNode(
             "div",
