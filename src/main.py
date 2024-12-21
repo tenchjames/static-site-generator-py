@@ -2,32 +2,25 @@ from leafnode import LeafNode
 from textnode import TextNode, TextType
 from htmlnode import HtmlNode
 from parentnode import ParentNode
+from markdown_util import split_nodes_image, split_nodes_link
 
 
 def main():
-    text_node = TextNode("text in the node", TextType.BOLD)
-    print(text_node)
-
-    html_node = HtmlNode("p", "a paragraph", None, None)
-    print(html_node)
-
-    p = LeafNode("p", "This is a paragraph of text.")
-    print(p)
-    print(p.to_html())
-    a = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
-    print(a)
-    print(a.to_html())
-
-    parent = ParentNode(
-        "p",
-        [
-            LeafNode("b", "bold text"),
-            LeafNode(None, "regular text"),
-            LeafNode("i", "italic text"),
-        ]
+    node = TextNode(
+        "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
+        TextType.TEXT,
     )
-    parent_html = parent.to_html()
-    print(parent_html)
+    new_nodes = split_nodes_link([node])
+    print(new_nodes)
+
+    # [
+    #     TextNode("This is text with a link ", TextType.TEXT),
+    #     TextNode("to boot dev", TextType.LINK, "https://www.boot.dev"),
+    #     TextNode(" and ", TextType.TEXT),
+    #     TextNode(
+    #         "to youtube", TextType.LINK, "https://www.youtube.com/@bootdotdev"
+    #     ),
+    # ]
 
 
 if __name__ == "__main__":
