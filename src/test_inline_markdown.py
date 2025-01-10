@@ -1,11 +1,12 @@
 import unittest
 
 from textnode import TextNode, TextType
-from markdown_util import (split_nodes_delimiter,
-                           split_nodes_image,
-                           split_nodes_link,
-                           extract_markdown_images,
-                           extract_markdown_links)
+from inline_markdown import (split_nodes_delimiter,
+                             split_nodes_image,
+                             split_nodes_link,
+                             text_to_text_nodes,
+                             extract_markdown_images,
+                             extract_markdown_links)
 
 
 class TestMarkDownUtils(unittest.TestCase):
@@ -118,6 +119,11 @@ class TestMarkDownUtils(unittest.TestCase):
             TextType.IMAGE,
             new_nodes[1].text_type
         )
+
+    def test_text_to_text_nodes(self):
+        text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+        nodes = text_to_text_nodes(text)
+        self.assertEqual(len(nodes), 10)
 
 
 if __name__ == "__main__":
